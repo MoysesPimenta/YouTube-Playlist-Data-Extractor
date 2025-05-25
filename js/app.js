@@ -46,17 +46,27 @@ document.addEventListener('DOMContentLoaded', function() {
     downloadExcelBtn.addEventListener('click', handleExcelDownload);
     downloadWordBtn.addEventListener('click', handleWordDownload);
     tryAgainBtn.addEventListener('click', resetForm);
-    apiInstructionsLink.addEventListener('click', showApiInstructions);
     
-    // Fix: Ensure the close button works properly
-    if (closeModal) {
-        closeModal.addEventListener('click', hideApiInstructions);
+    // Modal handling - FIXED VERSION
+    if (apiInstructionsLink) {
+        apiInstructionsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (apiModal) {
+                apiModal.style.display = 'flex';
+            }
+        });
+    }
+    
+    if (closeModal && apiModal) {
+        closeModal.addEventListener('click', function() {
+            apiModal.style.display = 'none';
+        });
     }
     
     // Close modal when clicking outside of it
     window.addEventListener('click', function(event) {
         if (event.target === apiModal) {
-            hideApiInstructions();
+            apiModal.style.display = 'none';
         }
     });
 
@@ -116,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Validate YouTube playlist URL
     function isValidYouTubePlaylistUrl(url) {
-        const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.*list=([a-zA-Z0-9_-]+)/;
+        const regex = /^(https?:\/\/ )?(www\.)?(youtube\.com|youtu\.be)\/.*list=([a-zA-Z0-9_-]+)/;
         return regex.test(url);
     }
 
@@ -169,21 +179,6 @@ document.addEventListener('DOMContentLoaded', function() {
             screenshots: [],
             totalDuration: 0
         };
-    }
-
-    // Show API instructions modal
-    function showApiInstructions(e) {
-        e.preventDefault();
-        if (apiModal) {
-            apiModal.classList.remove('hidden');
-        }
-    }
-
-    // Hide API instructions modal
-    function hideApiInstructions() {
-        if (apiModal) {
-            apiModal.classList.add('hidden');
-        }
     }
 
     // Handle Excel download
