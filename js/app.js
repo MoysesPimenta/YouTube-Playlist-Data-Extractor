@@ -47,7 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
     downloadWordBtn.addEventListener('click', handleWordDownload);
     tryAgainBtn.addEventListener('click', resetForm);
     apiInstructionsLink.addEventListener('click', showApiInstructions);
-    closeModal.addEventListener('click', hideApiInstructions);
+    
+    // Fix: Ensure the close button works properly
+    if (closeModal) {
+        closeModal.addEventListener('click', hideApiInstructions);
+    }
     
     // Close modal when clicking outside of it
     window.addEventListener('click', function(event) {
@@ -170,12 +174,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show API instructions modal
     function showApiInstructions(e) {
         e.preventDefault();
-        apiModal.classList.remove('hidden');
+        if (apiModal) {
+            apiModal.classList.remove('hidden');
+        }
     }
 
     // Hide API instructions modal
     function hideApiInstructions() {
-        apiModal.classList.add('hidden');
+        if (apiModal) {
+            apiModal.classList.add('hidden');
+        }
     }
 
     // Handle Excel download
